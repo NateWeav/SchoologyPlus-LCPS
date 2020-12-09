@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link type="text/css" rel="stylesheet" href="/lib/css/material-icons.css" />
+    <link type="text/css" rel="stylesheet" href="/lib/css/materialize.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="/lib/css/jquery-ui.min.css" />
+    <link type="text/css" rel="stylesheet" href="/lib/css/roundslider.min.css" />
+    <link type="text/css" rel="stylesheet" href="/css/theme-editor.css" />
+    <link rel="shortcut icon" type="image/png" href="/imgs/icon@128.png" />
+
+    <script src="/lib/js/jquery-3.3.1.min.js"></script>
+    <script src="/lib/js/spectrum.js"></script>
+    <link rel="stylesheet" type="text/css" href="/lib/css/spectrum.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Theme Editor - Schoology Plus</title>
+
+</head>
+
+<body>
+    <script src="/js/analytics.js"></script>
+    <header>
+        <div class="navbar-fixed">
+            <nav class="splus-blue">
+                <div class="nav-wrapper">
+                    <ul id="nav-mobile" class="left">
+                        <li>
+                            <a data-position="right" data-tooltip="Help" class="waves-effect waves-light tooltipped splus-track-clicks"
+                                href="https://schoologypl.us/docs/themes"
+                                data-splus-tracking-label="Theme Editor"
+                                id="help-navbar"
+                                target="_blank">
+                                <i class="material-icons">help</i>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="brand-logo center truncate">
+                        Schoology Plus Theme Editor
+                    </div>
+                    <ul id="nav-mobile" class="right">
+                        <li>
+                            <a id="close-button" data-position="left" data-tooltip="Exit"
+                                class="waves-effect waves-light tooltipped" href="#!">
+                                <i class="material-icons">clear</i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="container wide-container">
+        <div class="row content-box">
+            <div id="themes-list-section" class="col s12 l4">
+                <div class="section row">
+                    <h5 id="themes-header">
+                        Themes
+                        <div id="new-theme-container" class="fixed-action-btn horizontal click-to-toggle">
+                            <a id="new-button" class="btn-floating btn-large tooltipped" data-tooltip="New Theme">
+                                <i class="large material-icons">add</i>
+                            </a>
+                            <ul>
+                                <li><a id="import-button" data-tooltip="Import Theme"
+                                        class="btn-floating green waves-effect waves-light tooltipped splus-track-clicks"><i
+                                            class="material-icons">save_alt</i></a>
+                                </li>
+                                <li><a id="create-button" data-tooltip="Create Theme"
+                                        class="btn-floating red waves-effect waves-light tooltipped splus-track-clicks"><i
+                                            class="material-icons">mode_edit</i></a></li>
+                            </ul>
+                        </div>
+                    </h5>
+                    <div class="section">
+                        <div id="themes-list" class="collection">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="theme-editor-section" class="col s12 l4 hidden">
+                <div class="section row">
+                    <h5>Properties</h5>
+                    <div class="input-field col s12">
+                        <input id="theme-name" type="text" class="validate">
+                        <label for="theme-name">Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <h5>Color</h5>
+                    <p>
+                        <label>
+                            <input id="theme-color-hue" class="with-gap" name="color-group" type="radio" checked />
+                            <span>Color Hue</span>
+                        </label>
+                        <div class="col s12" id="theme-hue-wrapper" style="width: 90%; padding-left: 7.5%;">
+                            <label for="theme-hue">Color Hue<span id="color-hue-value" class="right"></span></label>
+                            <div id="theme-hue" data-display="color-hue-value"></div>
+                        </div>
+                    </p>
+                    <p>
+                        <label>
+                            <input id="theme-color-custom" class="with-gap" name="color-group" type="radio" />
+                            <span>Custom Colors</span>
+                        </label>
+                        <div id="theme-color-custom-wrapper" class="hidden" style="width: 90%; padding-left: 5%;">
+                            <div class="input-field col s12 m6">
+                                <input id="theme-primary-color">
+                                <label for="theme-primary-color" class="active">Primary Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="theme-secondary-color">
+                                <label for="theme-secondary-color" class="active">Hover Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="theme-background-color">
+                                <label for="theme-background-color" class="active">Background Color</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input id="theme-border-color">
+                                <label for="theme-border-color" class="active">Border Color</label>
+                            </div>
+                        </div>
+                    </p>
+                    <p>
+                        <label>
+                            <input id="theme-color-rainbow" class="with-gap" name="color-group" type="radio" />
+                            <span>Rainbow</span>
+                        </label>
+                        <div id="theme-color-rainbow-wrapper" style="width: 85%; padding-left: 7.5%;">
+                            <div class="card-panel yellow darken-3 black-text" style="padding: 15px;">
+                                <h6 style="line-height: 24px; vertical-align: middle;"><i class="material-icons left"
+                                        style="margin-right: 5px;">warning</i>Warning</h6>
+                                <p>
+                                    This section contains advanced features. Please consult <a
+                                        style="color: black; text-decoration: underline" target="_blank"
+                                        data-splus-tracking-label="Theme Editor"
+                                        id="help-documentation-rainbow" class="splus-track-clicks"
+                                        href="https://schoologypl.us/docs/themes/create#rainbow">the
+                                        documentation</a> for how to use rainbow colors in your theme.
+                                </p>
+                            </div>
+                            <div>
+                                <h6>Hue</h6>
+                                <div style="width: 90%; padding-left: 5%;">
+                                    <label>
+                                        <input id="color-rainbow-hue-animate" class="filled-in" type="checkbox" />
+                                        <span>Animate</span>
+                                    </label>
+                                    <div id="color-rainbow-hue-animate-wrapper">
+                                        <label for="color-rainbow-hue-speed">
+                                            Animation Speed
+                                            <span id="color-rainbow-hue-speed-display" class="right">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-hue-speed" min="0" max="100" type="range"
+                                                    data-label="color-rainbow-hue-speed-display" />
+                                            </div>
+                                        </label>
+                                        <label for="color-rainbow-hue-range">
+                                            Hue Range
+                                            <div id="color-rainbow-hue-range"></div>
+                                        </label>
+                                        <div style="margin-top: 10px;">
+                                            <label>
+                                                <input id="color-rainbow-hue-alternate" class="filled-in"
+                                                    type="checkbox" />
+                                                <span>Alternate</span>
+                                            </label>
+                                        </div>
+                                        <label>
+                                            <span>Hue Range Preview (Left to Right)</span>
+                                            <div id="color-rainbow-hue-preview"></div>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label for="color-rainbow-hue-value">
+                                            <span>Hue Value</span>
+                                            <span class="right" id="color-rainbow-hue-display">100</span>
+                                            <div id="color-rainbow-hue-value" class="hue-slider"
+                                                data-display="color-rainbow-hue-display"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h6>Saturation</h6>
+                                <div style="width: 90%; padding-left: 5%;">
+                                    <label>
+                                        <input id="color-rainbow-saturation-animate" class="filled-in"
+                                            type="checkbox" />
+                                        <span>Animate</span>
+                                    </label>
+                                    <div id="color-rainbow-saturation-animate-wrapper">
+                                        <label for="color-rainbow-saturation-speed">
+                                            Animation Speed
+                                            <span class="right" id="color-rainbow-saturation-speed-display">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-saturation-speed" min="0" max="100"
+                                                    type="range" data-label="color-rainbow-saturation-speed-display" />
+                                            </div>
+                                        </label>
+                                        <label for="color-rainbow-saturation-range">
+                                            Saturation Range
+                                            <span id="color-rainbow-saturation-range-display" class="right">0 -
+                                                100</span>
+                                            <div id="color-rainbow-saturation-range"></div>
+                                        </label>
+                                        <label>
+                                            <input id="color-rainbow-saturation-alternate" class="filled-in"
+                                                type="checkbox" />
+                                            <span>Alternate</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label for="color-rainbow-saturation-value">
+                                            <span>Saturation Value</span>
+                                            <span class="right" id="color-rainbow-saturation-display">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-saturation-value" min="0" max="100"
+                                                    type="range" data-label="color-rainbow-saturation-display" />
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h6>Lightness</h6>
+                                <div style="width: 90%; padding-left: 5%;">
+                                    <label>
+                                        <input id="color-rainbow-lightness-animate" class="filled-in" type="checkbox" />
+                                        <span>Animate</span>
+                                    </label>
+                                    <div id="color-rainbow-lightness-animate-wrapper">
+                                        <label for="color-rainbow-lightness-speed">
+                                            Animation Speed
+                                            <span class="right" id="color-rainbow-lightness-speed-display">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-lightness-speed" min="0" max="100" type="range"
+                                                    data-label="color-rainbow-lightness-speed-display" />
+                                            </div>
+                                        </label>
+                                        <label for="color-rainbow-lightness-range">
+                                            Lightness Range
+                                            <span id="color-rainbow-lightness-range-display" class="right">0 -
+                                                100</span>
+                                            <div id="color-rainbow-lightness-range"></div>
+                                        </label>
+                                        <label>
+                                            <input id="color-rainbow-lightness-alternate" class="filled-in"
+                                                type="checkbox" />
+                                            <span>Alternate</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label for="color-rainbow-lightness-value">
+                                            <span>Lightness Value</span>
+                                            <span class="right" id="color-rainbow-lightness-display">100</span>
+                                            <div class="range-field">
+                                                <input id="color-rainbow-lightness-value" min="0" max="100" type="range"
+                                                    data-label="color-rainbow-lightness-display" />
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </p>
+                </div>
+                <div class="row">
+                    <h5>Logo</h5>
+                    <p>
+                        <label>
+                            <input id="theme-schoology-plus-logo" class="with-gap" name="logo-group" type="radio" checked />
+                            <span>Schoology Plus Logo</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input id="theme-schoology-logo" class="with-gap" name="logo-group" type="radio" />
+                            <span>Schoology Logo</span>
+                        </label>
+                    </p>
+                    <p class="show-lausd">
+                        <label>
+                            <input id="theme-new-lausd-logo" class="with-gap" name="logo-group" type="radio" />
+                            <span>New LAUSD Logo</span>
+                        </label>
+                    </p>
+                    <p class="show-lausd">
+                        <label>
+                            <input id="theme-lausd-logo" class="with-gap" name="logo-group" type="radio" />
+                            <span>Old LAUSD Logo</span>
+                        </label>
+                    </p>
+                    <p class="hide-lausd">
+                        <label>
+                            <input id="theme-default-logo" class="with-gap" name="logo-group" type="radio" />
+                            <span>Your School's Default Logo</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input id="theme-custom-logo" class="with-gap" name="logo-group" type="radio" />
+                            <span>Custom Image</span>
+                        </label>
+                        <div id="theme-logo-wrapper" class="input-field col s12 hidden"
+                            style="width: 90%; margin-left: 5%; margin-top: 0;">
+                            <input id="theme-logo" type="url" class="validate"
+                                placeholder="Direct image URL or paste/drop image">
+                            <label for="theme-logo">Logo Image URL</label>
+                        </div>
+                    </p>
+                </div>
+                <div class="row">
+                    <h5>Cursor</h5>
+                    <div class="input-field col s12">
+                        <input id="theme-cursor" type="url" class="validate"
+                            placeholder="Direct image URL or paste/drop image">
+                        <label for="theme-cursor">Cursor Image URL</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 l8 xl7 push-xl1">
+                <div id="preview-section" class="section fixed-on-large-and-up">
+                    <h5>
+                        <a id="lock-button" data-tooltip="Toggle preview lock" data-splus-tracking-label="Theme Editor"
+                            class="waves-effect waves-light btn-flat locked hide-on-med-and-down tooltipped splus-track-clicks">
+                            <i id="lock-icon" class="material-icons left">lock</i>
+                        </a>
+                        Preview
+                        <a id="save-close-button" data-tooltip="Save and Apply" data-splus-tracking-label="Theme Editor"
+                            class="waves-effect waves-light btn-flat right action-button tooltipped splus-track-clicks"><i
+                                class="material-icons">done</i></a>
+                        <a id="save-button" data-tooltip="Save Theme" data-splus-tracking-label="Theme Editor"
+                            class="waves-effect waves-light btn-flat right action-button tooltipped splus-track-clicks"><i
+                                class="material-icons">save</i></a>
+                        <a id="discard-button" data-tooltip="Discard Changes" data-splus-tracking-label="Theme Editor"
+                            class="waves-effect waves-light btn-flat right action-button tooltipped splus-track-clicks"><i
+                                class="material-icons">settings_backup_restore</i></a>
+                    </h5>
+                    <div id="error-card" class="col s12" style="display:none;">
+                        <div class="card red darken-2">
+                            <div class="card-content white-text">
+                                <span class="card-title valign-wrapper">
+                                    <i class="material-icons inline-icon">error</i> Error</span>
+                                <p id="error-content"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="warning-card" class="col s12" style="display:none;">
+                        <div class="card yellow darken-3">
+                            <div class="card-content black-text">
+                                <span class="card-title valign-wrapper">
+                                    <i class="material-icons inline-icon">warning</i> Warning</span>
+                                <p id="warning-content"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <ul class="tabs">
+                                <li class="tab col s4">
+                                    <a href="#tab-preview">Theme Preview</a>
+                                </li>
+                                <li class="tab col s4">
+                                    <a href="#tab-icons">Theme Icons</a>
+                                </li>
+                                <li class="tab col s4">
+                                    <a href="#tab-json">Theme JSON</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="tab-preview" class="col s12">
+                            <div class="col s12">
+                                <div id="preview" class="card-panel white">
+                                    <div class="row">
+                                        <nav id="preview-navbar">
+                                            <div class="nav-wrapper">
+                                                <div id="preview-logo" class="hide-background-image brand-logo"></div>
+                                                <ul id="preview-left-nav" class="navbar-links hide-on-med-and-down">
+                                                    <li id="preview-courses-link">
+                                                        <a>COURSES</a>
+                                                        <div id="preview-courses-drop-down">
+                                                            <h1>Courses</h1>
+                                                            <h2 class="center">You are not currently enrolled in any
+                                                                courses</h2>
+                                                        </div>
+                                                    </li>
+                                                    <li class="hide-below-1300-px">
+                                                        <a>RESOURCES</a>
+                                                    </li>
+                                                </ul>
+                                                <ul id="preview-right-nav" class="right">
+                                                    <li>
+                                                        <a>
+                                                            <svg style="width: 22px; vertical-align: middle;" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                                                                <circle stroke="currentColor" style="fill: none; stroke-width: 35px;" cx="250" cy="250" r="230"></circle>
+                                                                <line stroke="currentColor" style="stroke-linecap: round; stroke-width: 35px;" x1="250" y1="125" x2="250" y2="375"></line>
+                                                                <line stroke="currentColor" style="stroke-linecap: round; stroke-width: 35px;" x1="125" y1="250" x2="375" y2="250"></line>
+                                                              </svg>
+                                                        </a>
+                                                    </li>
+                                                    <li id="preview-settings-menu">
+                                                        <a id="preview-name-container">
+                                                            <img src="https://asset-cdn.schoology.com/system/files/imagecache/profile_tiny/sites/all/themes/schoology_theme/images/user-default.gif"
+                                                                alt="Your Name" id="preview-profile-pic">
+                                                            <span>YOUR NAME</span>
+                                                            <svg id="preview-down-arrow" viewBox="0 0 15 10"
+                                                                id="icon-small-caret-white" width="100%" height="100%">
+                                                                <path
+                                                                    d="M12.78.443L9.756 3.952 8.294 5.65l-.761.884-.033.03-.032-.03-.762-.884-1.463-1.698L2.221.442C1.06-.902-.79 1.126.365 2.468L5.722 8.7c.4.465.795 1.071 1.387 1.249.136.04.266.056.391.051.125.005.255-.01.39-.051.593-.178.988-.784 1.388-1.249l5.357-6.232c1.154-1.342-.696-3.37-1.856-2.024"
+                                                                    fill="#FFF" fill-rule="evenodd"></path>
+                                                            </svg>
+                                                        </a>
+                                                        <ul id="preview-name-drop-down">
+                                                            <li><a>Your Profile</a></li>
+                                                            <li><a>Your School</a></li>
+                                                            <li><a>Settings</a></li>
+                                                            <hr />
+                                                            <li><a>Logout</a></li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </nav>
+                                    </div>
+                                    <div id="preview-modal" class="splus-modal">
+                                        <div class="splus-modal-content">
+                                            <div class="splus-modal-header">
+                                                <span class="close" data-parent="peview-modal">&times;</span>
+                                                <p class="splus-modal-title">Schoology Plus Theme Editor</p>
+                                            </div>
+                                            <div class="splus-modal-body">
+                                                <div class="splus-modal-contents">
+                                                    <h2 class="setting-entry">Title</h2>
+                                                    <div class="setting-entry">
+                                                        <h3 class="setting-title">Subtitle</h3>
+                                                        <p class="setting-description">Some text</p>
+                                                    </div>
+                                                    <div class="setting-entry">
+                                                        <a class="setting-link" href="#"><h3 class="setting-title">Clickable Link</h3></a>
+                                                        <p class="setting-description">Some text</p>
+                                                    </div>
+                                                    <div class="setting-entry">
+                                                        <a class="setting-link" href="#"><h3 class="setting-title">Clickable Link</h3></a>
+                                                        <p class="setting-description">Some text</p>
+                                                    </div>
+                                                    <span class="submit-span-wrapper splus-modal-button">
+                                                        <input class="form-submit" type="button" value="Click Me">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="splus-modal-footer">
+                                                <p class="splus-modal-footer-text">&copy; Aaron Opell, Glen Husman
+                                                    2017-2020
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-icons" class="col s12">
+                            <div class="row">
+                                <div class="col s3 m2 l1 center" style="margin-top: 16px;">
+                                    <img src="https://image.flaticon.com/icons/svg/164/164949.svg" alt="Test Icon"
+                                        height="49" id="test-icon">
+                                </div>
+                                <div class="input-field col s9 m10 l11">
+                                    <input type="text" id="icon-test-text"
+                                        placeholder="Type a class name here to preview its icon">
+                                </div>
+                                <div class="col s12 card-panel yellow darken-3 black-text" style="padding: 15px;">
+                                    <h6 style="line-height: 24px; vertical-align: middle;"><i
+                                            class="material-icons left" style="margin-right: 5px;">warning</i>Warning
+                                    </h6>
+                                    <p>
+                                        This section contains advanced features. Please consult <a
+                                            style="color: black; text-decoration: underline" target="_blank"
+                                            id="help-documentation-icons" class="splus-track-clicks" data-splus-tracking-label="Theme Editor"
+                                            href="https://schoologypl.us/docs/themes/create#icons">the
+                                            documentation</a> for how to use custom icons in your theme.
+                                    </p>
+                                </div>
+                                <table id="icon-list-table">
+                                    <colgroup>
+                                        <col span="1" style="width: 15%" />
+                                        <col span="1" style="width: 35%" />
+                                        <col span="1" style="width: 30%" />
+                                        <col span="1" style="width: 10%" />
+                                        <col span="1" style="width: 10%" />
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>
+                                                <span style="vertical-align: middle;">Class Name Regular
+                                                    Expression</span>
+                                                <a target="_blank"
+                                                    href="https://www.regular-expressions.info/quickstart.html"><i
+                                                        class="material-icons tooltipped splus-track-clicks"
+                                                        id="help-regex"
+                                                        data-splus-tracking-label="Theme Editor"
+                                                        data-tooltip="Regular expressions are a special way to check if text matches a pattern. Click for more info."
+                                                        style="vertical-align: middle; color: black;">help</i></a>
+                                            </th>
+                                            <th>
+                                                <span style="vertical-align: middle;">Icon URL or paste/drop
+                                                    image</span>
+                                                <i class="material-icons tooltipped"
+                                                    data-tooltip="Provide an icon by any of the following methods:<br>- Enter a direct image link<br>- Paste an image directly<br>- Drag and drop and image file into the text box<br><br>Using the paste or drag-and-drop methods will upload your image to Imgur."
+                                                    style="vertical-align: middle; color: black; cursor: help;">help</i>
+                                            </th>
+                                            <th>Icon</th>
+                                            <th>
+                                                <a class="waves-effect waves-light btn-floating action-button tooltipped right"
+                                                    data-tooltip="Add New" id="new-icon">
+                                                    <i class="material-icons">add</i>
+                                                </a>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="icon-list"
+                                        data-text="This theme has no icons - in edit mode, press the + button above to add a new icon">
+                                        <!-- <tr>
+                                            <td style="text-align: center">
+                                                <a class="tooltipped action-button arrow-button move-down" data-tooltip="Move Down">
+                                                    <i class="material-icons">arrow_downward</i>
+                                                </a>
+                                                <a class="tooltipped action-button arrow-button move-up" data-tooltip="Move Up">
+                                                    <i class="material-icons">arrow_upward</i>
+                                                </a>
+                                            </td>
+                                            <td data-text="Class Name Pattern" class="class-name"></td>
+                                            <td data-text="Icon URL" class="icon-url"></td>
+                                            <td>
+                                                <a class="waves-effect waves-light btn-flat right action-button tooltipped delete-icon-button" data-tooltip="Delete">
+                                                    <i class="material-icons">delete</i>
+                                                </a>
+                                            </td>
+                                        </tr> -->
+                                    </tbody>
+                                </table>
+                                <p style="text-align: center; color: grey; padding-top: 20px;">
+                                    Schoology Plus will attempt to match a class name to one of the
+                                    regular expressions above first (from top to bottom), but if it
+                                    doesn't find a match it will use <a href="default-icons.html">the default icon set</a>.
+                                    To avoid this behavior, create a default icon for your theme by
+                                    adding an icon with pattern "." (a single period) as the last
+                                    icon in your list.
+                                </p>
+                            </div>
+                        </div>
+                        <div id="tab-json" class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea id="json-output" class="materialize-textarea" readonly wrap="off"
+                                        style="overflow-x:auto;"></textarea>
+                                    <label for="json-output">JSON</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="modal" class="modal">
+            <div id="modal-content" class="modal-content"></div>
+            <div id="modal-buttons" class="modal-footer"></div>
+        </div>
+    </main>
+    <script src="/lib/js/materialize.min.js"></script>
+    <script src="/lib/js/jquery-ui.min.js"></script>
+    <script src="/lib/js/roundslider.min.js"></script>
+    <script src="/lib/js/analytics.js"></script>
+    <script src="/js/icons.js"></script>
+    <script src="/js/theme-model.js"></script>
+    <script src="/js/default-themes.js"></script>
+    <script src="/js/theme-editor.js"></script>
+</body>
+
+</html>
